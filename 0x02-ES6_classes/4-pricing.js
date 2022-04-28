@@ -1,24 +1,28 @@
-/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-unused-vars */
+import Currency from './3-currency';
+
 export default class Pricing {
   constructor(amount, currency) {
     this.amount = amount;
     this.currency = currency;
   }
 
+  // amount
   get amount() {
     return this._amount;
   }
 
-  set amount(amount) {
-    this._amount = amount;
+  set amount(value) {
+    this._amount = value;
   }
 
+  // currency
   get currency() {
     return this._currency;
   }
 
-  set currency(currency) {
-    this._currency = currency;
+  set currency(value) {
+    this._currency = value;
   }
 
   displayFullPrice() {
