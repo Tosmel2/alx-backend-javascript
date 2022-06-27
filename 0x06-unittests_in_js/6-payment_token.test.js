@@ -1,17 +1,14 @@
+'use strict';
 const chai = require('chai');
-const expect = chai.expect;
-
-const getPaymentTokenFromAPI = require('./6-payment_token');
+const getPaymentTokenFromAPI = require('./6-payment_token.js');
 
 describe('getPaymentTokenFromAPI', () => {
-  it('test async testing', (done) => {
+  it('async tests with done', (done) => {
     getPaymentTokenFromAPI(true)
-    .then((res) => {
-      expect(res).to.eql({data: 'Successful response from the API' });
+      .then((res) => {
+        chai.expect(res).to.include({ data: 'Successful response from the API' });
       done();
-    })
-    .catch((error) => {
-      done(error);
-    });
+      })
+      .catch((error) => done(error));
   });
 });

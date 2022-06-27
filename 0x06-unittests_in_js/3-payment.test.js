@@ -1,18 +1,17 @@
+'use strict';
 const chai = require('chai');
-const expect = chai.expect;
-
 const sinon = require('sinon');
-const utils = require('./utils');
-const sendPaymentRequestToApi = require('./3-payment');
 
-describe('sendPaymentRequestToApi', () => {
-  it('test the send payment request method', () => {
-    const funcspy = sinon.spy(utils, 'calculateNumber');
-    const reqApi = sendPaymentRequestToApi(100, 20);
+const Utils = require('./utils.js');
+const sendPaymentRequestToApi = require('./3-payment.js');
 
-    expect(funcspy.calledOnceWithExactly('SUM', 100, 20)).to.equal(true);
-    expect(utils.calculateNumber('SUM', 100, 20)).to.equal(reqApi);
+describe('sendPaymentRequestToApi function', () => {
+  const spyUtils = sinon.spy(Utils, 'calculateNumber');
 
-    funcspy.restore();
+  it('validate the usage of the Utils function', () => {
+    sendPaymentRequestToApi(100, 20);
+    chai.expect(spyUtils.calledOnce).to.be.true;
+    chai.expect(spyUtils.calledWith('SUM', 100, 20)).to.be.true;
+    spyUtils.restore()
   });
 });

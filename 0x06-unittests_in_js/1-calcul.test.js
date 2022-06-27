@@ -1,46 +1,38 @@
+'use strict';
 const assert = require('assert');
-const calculateNumber = require('./1-calcul');
+const calculateNumber = require('./1-calcul.js');
 
-describe('test calculate number', () => {
-  it('checks the rounded sum', () => {
-    assert.equal(calculateNumber('SUM', 1, 3), 4);
-    assert.equal(calculateNumber('SUM', 1, 3.7), 5);
-    assert.equal(calculateNumber('SUM', 1.2, 3.7), 5);
-    assert.equal(calculateNumber('SUM', 1.5, 3.7), 6);
-    assert.equal(calculateNumber('SUM', -1, 3), 2);
-    assert.equal(calculateNumber('SUM', -1, -4), -5);
-    assert.equal(calculateNumber('SUM', -1.2, -1.4), -2);
-    assert.equal(calculateNumber('SUM', -2, 3.2), 1);
+describe('calculateNumber type == SUM', () => {
+  it('checks the output', () => {
+    assert.strictEqual(calculateNumber('SUM', 1, 3), 4);
+    assert.strictEqual(calculateNumber('SUM', 1, 3.7), 5);
+    assert.strictEqual(calculateNumber('SUM', 3.7, 1), 5);
+    assert.strictEqual(calculateNumber('SUM', 1.4, 4.5), 6);
+    assert.strictEqual(calculateNumber('SUM', 4.5, 1.4), 6);
+    assert.strictEqual(calculateNumber('SUM', 0.0, 0), 0);
+    assert.strictEqual(calculateNumber('SUM', -1, 1), 0);
+    assert.strictEqual(calculateNumber('SUM', 1, -1), 0);
+    assert.strictEqual(calculateNumber('SUM', -1, -1), -2);
   });
+});
 
-  it('checks the rounded difference', () => {
-    assert.equal(calculateNumber('SUBTRACT', 1, 3), -2);
-    assert.equal(calculateNumber('SUBTRACT', 3.3, 1), 2);
-    assert.equal(calculateNumber('SUBTRACT', 1.4, 4.5), -4);
-    assert.equal(calculateNumber('SUBTRACT', 1.5, 3.7), -2);
-    assert.equal(calculateNumber('SUBTRACT', -1, 3), -4);
-    assert.equal(calculateNumber('SUBTRACT', -1, -4), 3);
-    assert.equal(calculateNumber('SUBTRACT', -1.2, -1.4), 0);
-    assert.equal(calculateNumber('SUBTRACT', -2, 3.2), -5);
+describe('calculateNumber type == SUBTRACT', () => {
+  it('checks the output', () => {
+    assert.strictEqual(calculateNumber('SUBTRACT', 5, 3), 2);
+    assert.strictEqual(calculateNumber('SUBTRACT', 3.1, 2.5), 0);
+    assert.strictEqual(calculateNumber('SUBTRACT', 4.5, 2), 3);
+    assert.strictEqual(calculateNumber('SUBTRACT', 0.0, 5), -5);
+    assert.strictEqual(calculateNumber('SUBTRACT', 2, 4.5), -3);
+    assert.strictEqual(calculateNumber('SUBTRACT', -1, 1), -2);
+    assert.strictEqual(calculateNumber('SUBTRACT', -1.5, 0), -1);
   });
+});
 
-  it('checks the rounded division', () => {
-    assert.equal(calculateNumber('DIVIDE', 6, 2), 3);
-    assert.equal(calculateNumber('DIVIDE', 3.3, 1), 3);
-    assert.equal(calculateNumber('DIVIDE', 1.4, 4.5), 0.2);
-    assert.equal(calculateNumber('DIVIDE', 1.7, 3.7), 0.5);
-    assert.equal(calculateNumber('DIVIDE', -6, 3), -2);
-    assert.equal(calculateNumber('DIVIDE', -6, -3), 2);
-    assert.equal(calculateNumber('DIVIDE', -6.2, -3.4), 2);
-    assert.equal(calculateNumber('DIVIDE', -2, 2.1), -1);
-    assert.equal(calculateNumber('DIVIDE', -2, 0), 'Error');
-  });
-
-
-  it('checks the NaN number', () => {
-    assert.throws(() => calculateNumber('SUM', NaN, 5), '[Function: TypeError]');
-    assert.throws(() => calculateNumber('SUBTRACT', NaN, 5), '[Function: TypeError]');
-    assert.throws(() => calculateNumber('DIVIDE', NaN, 5), '[Function: TypeError]');
-    assert.throws(() => calculateNumber('shhh', NaN, 5), '[Function: TypeError]');
+describe('calculateNumber type == DIVIDE', () => {
+  it('check the output', () => {
+    assert.strictEqual(calculateNumber('DIVIDE', 2, 2.5), 0.6666666666666666);
+    assert.strictEqual(calculateNumber('DIVIDE', 0.0, 2), 0);
+    assert.strictEqual(calculateNumber('DIVIDE', -1, 1), -1);
+    assert.strictEqual(calculateNumber('DIVIDE', 1, 0), 'Error');
   });
 });

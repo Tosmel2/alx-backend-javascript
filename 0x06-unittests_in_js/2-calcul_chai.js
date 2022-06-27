@@ -1,19 +1,7 @@
+'use strict';
 function calculateNumber(type, a, b) {
-  const firstInt = Math.round(a);
-  const secondInt = Math.round(b);
-
-  if (type === 'SUBTRACT') {
-    return firstInt - secondInt;
-  }
-
-  if (type === 'DIVIDE') {
-    if (secondInt === 0) {
-      return 'Error';
-    }
-    return firstInt / secondInt;
-  }
-
-  return firstInt + secondInt;
+  if (type === 'SUM') return Math.round(a) + Math.round(b);
+  if (type === 'SUBTRACT') return Math.round(a) - Math.round(b);
+  if (type === 'DIVIDE') return Math.round(b) === 0 ? 'Error' : Math.round(a) / Math.round(b);
 }
-
 module.exports = calculateNumber;

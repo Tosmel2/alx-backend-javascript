@@ -1,109 +1,77 @@
-const chai = require('chai');
-const expect = chai.expect;
+'use strict';
 const request = require('request');
+const chai = require('chai');
 
-describe('test the API', () => {
-  it('test the API with localost:7865', (done) => {
-    request('http://localhost:7865', 'GET', (er, rs, bd) => {
-      if (er) throw er;
-      expect(rs.statusCode).to.equal(200);
-      expect(bd).to.equal('Welcome to the payment system');
-    });
-    done();
-  });
-
-  it('test the API with cart/3', (done) => {
-    request('http://localhost:7865/cart/3', 'GET', (er, rs, bd) => {
-      if (er) throw er;
-      expect(rs.statusCode).to.equal(200);
-      expect(bd).to.equal('Payment methods for cart 3');
-    });
-    done();
-  });
-
-  it('test the API with cart/234', (done) => {
-    request('http://localhost:7865/cart/234', 'GET', (er, rs, bd) => {
-      if (er) throw er;
-      expect(rs.statusCode).to.equal(200);
-      expect(bd).to.equal('Payment methods for cart 234');
-    });
-    done();
-  });
-
-  it('test the API with cart/abc', (done) => {
-    request('http://localhost:7865/cart/abc', 'GET', (er, rs) => {
-      if (er) throw er;
-      expect(rs.statusCode).to.equal(404);
-    });
-    done();
-  });
-
-  it('test the API with cart/2bc', (done) => {
-    request('http://localhost:7865/cart/2bc', 'GET', (er, rs) => {
-      if (er) throw er;
-      expect(rs.statusCode).to.equal(404);
-    });
-    done();
-  });
-
-  it('test the API with cart/23a', (done) => {
-    request('http://localhost:7865/cart/23a', 'GET', (er, rs) => {
-      if (er) throw er;
-      expect(rs.statusCode).to.equal(404);
-    });
-    done();
-  });
-
-  it('test the API with cart', (done) => {
-    request('http://localhost:7865/cart', 'GET', (er, rs) => {
-      if (er) throw er;
-      expect(rs.statusCode).to.equal(404);
-    });
-    done();
-  });
-
-  it('test the API /login with some body', (done) => {
-    const prm = {
-      url: 'http://localhost:7865/login',
-      method: 'POST',
-      json: {
-        userName: 'Holberton',
-      },
+describe('GET /', () => {
+  it('endpoint: GET /', (done) => {
+    const call = {
+      url: 'http://localhost:7865',
+      method: 'GET',
     };
-    request(prm, (er, rs, bd) => {
-      if (er) throw er;
-      expect(rs.statusCode).to.equal(200);
-      expect(bd).to.equal('Welcome Holberton');
+    request(call, (error, response, body) => {
+      chai.expect(response.statusCode).to.equal(200);
+      chai.expect(body).to.equal('Welcome to the payment system');
+      done();
     });
-    done();
   });
+});
 
-  it('test the API /login with no body', (done) => {
-    const prm = {
-      url: 'http://localhost:7865/login',
-      method: 'POST',
-      
+describe('GET /cart/:id', () => {
+  it('endpoint: GET /cart/:id', (done) => {
+    const call = {
+      url: 'http://localhost:7865/cart/12',
+      method: 'GET',
     };
-    request(prm, (er, rs, bd) => {
-      if (er) throw er;
-      expect(rs.statusCode).to.equal(200);
-      expect(bd).to.equal('Welcome undefined');
+    request(call, (error, response, body) => {
+      chai.expect(response.statusCode).to.equal(200);
+      chai.expect(body).to.equal('Payment methods for cart 12');
+      done();
     });
-    done();
   });
+});
 
-  it('test the API /available_payments', (done) => {
-    const prm = {
+describe('GET /cart/:isNaN', () => {
+  it('endpoint: GET /cart/:isNaN', (done) => {
+    const call = {
+      url: 'http://localhost:7865/cart/anything',
+      method: 'GET',
+    };
+    request(call, (error, response, body) => {
+      chai.expect(response.statusCode).to.equal(404);
+      done();
+    });
+  });
+});
+
+describe('GET /available_payments', () => {
+  it('endpoint: GET /available_payments', (done) => {
+    const call = {
       url: 'http://localhost:7865/available_payments',
       method: 'GET',
     };
-    request(prm, (er, rs, bd) => {
-      if (er) throw er;
-      expect(rs.statusCode).to.equal(200);
-      expect(bd).to.equal('{"payment_methods":{"credit_cards":true,"paypal":false}}');
+    request(call, (error, response, body) => {
+      chai.expect(response.statusCode).to.equal(200);
+      chai.expect(body).to.equal(
+        '{"payment_methods":{"credit_cards":true,"paypal":false}}'
+      );
+      done();
     });
-    done();
   });
+});
 
-
+describe('POST /login', () => {
+  it('POST /login', (done) => {
+    const call = {
+      url: 'http://localhost:7865/login',
+      method: 'POST',
+      json: {
+        userName: 'Javi',
+      },
+    };
+    request(call, (error, response, body) => {
+      chai.expect(response.statusCode).to.equal(200);
+      chai.expect(body).to.equal('Welcome Javi');
+      done();
+    });
+  });
 });
